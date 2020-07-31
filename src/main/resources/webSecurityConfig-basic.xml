@@ -31,11 +31,11 @@
 	</http>
 
 	<beans:bean id="myAuthenticationSuccessHandler"
-		class="com.baeldung.security.MySimpleUrlAuthenticationSuccessHandler" />
+		class="com.debugshark.security.MySimpleUrlAuthenticationSuccessHandler" />
 
 	<authentication-manager>
 		<authentication-provider user-service-ref="userDetailsService" />
 	</authentication-manager>
-	<beans:bean id="userDetailsService" class="com.baeldung.security.MyUserDetailsService" />
+	<beans:bean id="userDetailsService" class="com.debugshark.security.MyUserDetailsService" />
 
 </beans:beans>
