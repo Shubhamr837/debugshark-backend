@@ -68,6 +68,7 @@ h1{
 
 
  }
+ 
 
 </style>
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
@@ -78,12 +79,7 @@ h1{
 <body>
     <div class="container">
         
-            <div class="heading"> 
-
-                <h1 th:text="#{label.form.title}">Come! Be A Part  </h1>
-
-            </div>
-           
+            
 
             <br/>
             <div class="box2">
@@ -123,13 +119,20 @@ h1{
                 <br/>
 
                 <button type="submit" class="btn btn-primary" th:text="#{label.form.submit}">submit</button>
-            </div>
+            
             </form>
 
             <br/> 
             <div class="login">
                  <button><a th:href="@{/login}" th:text="#{label.form.loginLink}">LOGIN WITH EMAIL</a></button>
             </div>
+        </div>
+        <div class="heading"> 
+
+                <h1 th:text="#{label.form.title}">Come! Be A Part  </h1>
+
+            </div>
+           
     </div>
 
 <script th:inline="javascript">
