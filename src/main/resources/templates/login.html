@@ -2,7 +2,26 @@
 
 <head>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css"/>
+
+<link href="https://fonts.googleapis.com/css2?family=Rowdies&display=swap" rel="stylesheet">
+
 <title th:utext="#{label.pages.home.title}">Title</title>
+<style type="text/css">
+    .box{
+
+    text-align: center;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.3), 0 6px 20px 0 rgba(0, 0, 0, 0.3);
+    background-color: white;
+    margin-top: 10%;
+    padding-bottom: 2%;
+
+}
+ body{
+    background-color: #e5f7ff;
+    font-family: Rowdies;
+    color:  #0d497a;
+ }
+ </style>
 <script th:inline="javascript">
 	function validate() {
         if (document.f.username.value == "" && document.f.password.value == "") {
@@ -29,45 +48,34 @@ label{padding-left:0 !important}
 </style>
 </head>
 <body>
-<div th:if="${param.message != null}" class="alert alert-info" th:text="${param.message[0]}">message</div>
-
-
-<div th:if="${param.error != null}" class="alert alert-danger" th:utext="${session[SPRING_SECURITY_LAST_EXCEPTION]}">error</div>
 
     <div class="container">
-        <div class="row wrapper">
-            <h1 th:utext="#{label.form.loginTitle}">Header</h1>
-             <a href="?lang=en" th:utext="#{label.form.loginEnglish}">login</a> |
-             <a href="?lang=es_ES" th:utext="#{label.form.loginSpanish}">login</a>
-            <br/><br/>
-            
+        <div class="box row wrapper">
+            <h1 th:utext="#{label.form.loginTitle}">LogIn </h1>
+             
+           
             <form name='f' action="login" method='POST' onsubmit="return validate();">
                  <span id="welcometext">&nbsp;</span>
                  
                  <br /><br />
-                 <label class="col-sm-4" th:utext="#{label.form.loginEmail}">Email</label>
+                 <label class="col-sm-4" th:utext="#{label.form.loginEmail}">Your Email :</label>
                  <span class="col-sm-8"><input class="form-control" type='text' name='username' value=''/></span>
                 
                 <br/><br/>        
-                 <label class="col-sm-4" th:utext="#{label.form.loginPass}">password</label>
+                 <label class="col-sm-4" th:utext="#{label.form.loginPass}">password :</label>
                  <span class="col-sm-8"><input class="form-control" type='password' name='password' /></span>
                 
-                <br/><br/>        
-                 <label class="col-sm-4" th:utext="#{label.form.login2fa}">Google Authenticator Verification Code</label>
-                 <span class="col-sm-8"><input class="form-control" type='text' name='code' /></span>
+                
                 
                 <br/><br/>
                  <input class="btn btn-primary" name="submit" type="submit" th:value="#{label.form.submit}" />
  
             </form>
-            <br/> Current Locale :  <span th:utext="${#locale}"></span><br/><br/>
-             <a class="btn btn-default" th:href="@{/registration.html}" th:utext="#{label.form.loginSignUp}">signup</a>
+            
+             <a class="btn btn-default" th:href="@{/registration.html}" th:utext="#{label.form.loginSignUp}">Create New Account</a>
              <br/>
-             <a class="btn btn-default" th:href="@{/registrationCaptcha.html}" th:utext="#{label.form.loginSignUpCaptcha}">captcha signup</a>
-             <br/><br/>
-            <a class="btn btn-default" th:href="@{/registrationReCaptchaV3.html}" th:utext="#{label.form.loginSignUpReCaptchaV3}">recaptcha v3 signup</a>
-             <br/><br/>
-            <a class="btn btn-default" th:href="@{/forgetPassword.html}" th:utext="#{message.resetPassword}">reset</a>    
+             
+            
         </div>
     </div>
 </body>
