@@ -5,6 +5,7 @@ import com.debugshark.security.CustomRememberMeServices;
 import com.debugshark.security.google2fa.CustomAuthenticationProvider;
 import com.debugshark.security.google2fa.CustomWebAuthenticationDetailsSource;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -20,11 +21,21 @@ import org.springframework.security.core.session.SessionRegistryImpl;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.DefaultRedirectStrategy;
+import org.springframework.security.web.RedirectStrategy;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
+import org.springframework.security.web.authentication.AuthenticationFilter;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.RememberMeServices;
 import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
 import org.springframework.security.web.authentication.rememberme.InMemoryTokenRepositoryImpl;
+import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
+import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
+import org.springframework.security.web.session.SessionManagementFilter;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
+
+import javax.servlet.Filter;
+import javax.servlet.http.HttpServletResponse;
 
 @Configuration
 @ComponentScan(basePackages = { "com.baeldung.security" })
@@ -50,6 +61,11 @@ public class SecSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private AuthenticationManager authenticationManager;
+
+    private RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
+
     public SecSecurityConfig() {
         super();
     }
@@ -63,6 +79,7 @@ public class SecSecurityConfig extends WebSecurityConfigurerAdapter {
     
     @Override
     protected void configure(final AuthenticationManagerBuilder auth) throws Exception {
+        auth.eraseCredentials(false);
         auth.authenticationProvider(authProvider());
     }
 
@@ -75,6 +92,9 @@ public class SecSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(final HttpSecurity http) throws Exception {
         // @formatter:off
+        CookieFilter cookieFilter = new CookieFilter(authenticationManager,redirectStrategy);
+        http.addFilterAfter(cookieFilter, BasicAuthenticationFilter.class);
+
         http
             .csrf().disable()
             .authorizeRequests()
@@ -108,7 +128,7 @@ public class SecSecurityConfig extends WebSecurityConfigurerAdapter {
                 .deleteCookies("JSESSIONID")
                 .permitAll()
              .and()
-                .rememberMe().rememberMeServices(rememberMeServices()).key("theKey")
+                .rememberMe().key("theKey").tokenValiditySeconds(86400)
              .and()
                 .headers().frameOptions().disable(); // this is needed to access the H2 db's console
 
@@ -139,6 +159,14 @@ public class SecSecurityConfig extends WebSecurityConfigurerAdapter {
     @Bean
     public RememberMeServices rememberMeServices() {
         CustomRememberMeServices rememberMeServices = new CustomRememberMeServices("theKey", userDetailsService, new InMemoryTokenRepositoryImpl());
+        rememberMeServices.setAlwaysRemember(true);
         return rememberMeServices;
     }
+
+    private Filter expiredSessionFilter() {
+        SessionManagementFilter smf = new SessionManagementFilter(new HttpSessionSecurityContextRepository());
+        smf.setInvalidSessionStrategy((request, response) -> response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Session go BOOM!"));
+        return smf;
+    }
+
 }

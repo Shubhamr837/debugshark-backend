@@ -1,14 +1,13 @@
 package com.debugshark.security;
 
 import javax.servlet.http.HttpServletRequest;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
 import org.springframework.security.authentication.event.AuthenticationSuccessEvent;
 import org.springframework.stereotype.Component;
 
 @Component
-public class AuthenticationSuccessEventListener implements ApplicationListener<AuthenticationSuccessEvent> {
+public class AuthenticationSuccessEventListener implements ApplicationListener<AuthenticationSuccessEvent>{
     @Autowired
     private HttpServletRequest request;
 
@@ -21,6 +20,7 @@ public class AuthenticationSuccessEventListener implements ApplicationListener<A
         // if (auth != null) {
         // loginAttemptService.loginSucceeded(auth.getRemoteAddress());
         // }
+        System.out.println("Authentication Success");
         final String xfHeader = request.getHeader("X-Forwarded-For");
         if (xfHeader == null) {
             loginAttemptService.loginSucceeded(request.getRemoteAddr());
