@@ -93,7 +93,7 @@ public class SecSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(final HttpSecurity http) throws Exception {
         // @formatter:off
         CookieFilter cookieFilter = new CookieFilter(authenticationManager,redirectStrategy);
-        http.addFilterAfter(cookieFilter, BasicAuthenticationFilter.class);
+        //http.addFilterAfter(cookieFilter, BasicAuthenticationFilter.class);
 
         http
             .csrf().disable()
