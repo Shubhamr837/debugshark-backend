@@ -91,7 +91,7 @@ public class RegistrationController {
             // model.addAttribute("qr", userService.generateQRUrl(user));
             // return "redirect:/qrcode.html?lang=" + locale.getLanguage();
             // }
-            authWithoutPassword(user);
+            //authWithoutPassword(user);
             model.addAttribute("message", messages.getMessage("message.accountVerified", null, locale));
             return "redirect:/console.html?lang=" + locale.getLanguage();
         }
