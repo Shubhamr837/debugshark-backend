@@ -71,7 +71,7 @@ public class CookieFilter extends OncePerRequestFilter {
     @Override
     protected boolean shouldNotFilter(HttpServletRequest request) {
         String path = request.getServletPath();
-        return path.endsWith(".js")||path.endsWith(".ttf")||path.endsWith(".json")||path.endsWith(".png")||path.endsWith(".jpeg");
+        return !(path.endsWith("login")||path.endsWith("homepage.html")||path.endsWith("registration.html"));
     }
 
     public Authentication authWithAuthManager( HttpServletRequest request ,String username,String password  )
