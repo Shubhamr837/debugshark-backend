@@ -9,7 +9,10 @@
 color:#000;
 }
 .container{
-      
+       margin-left: 0px;
+       padding-left: 5PX%;
+    
+    
      
      
 
@@ -18,7 +21,7 @@ h1{
 
     text-align: center;
     font-size: 60px;
-    color: #0d497a;
+    color: white;
 }
 
 
@@ -30,24 +33,29 @@ h1{
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.3), 0 6px 20px 0 rgba(0, 0, 0, 0.3);
     background-color: white;
      
-    margin-top: 5%;
-    margin-bottom: 5%;
+    margin-top: 2%;
+    margin-bottom: 0px;
     padding-left: 7.50%;
     padding-top: 5%;
     padding-bottom: 10px;
     
 
+    
+
    
-    width: 55%;
+
+    height: 100%;
     float: left;
+    width: 50%;
     
 }
 .heading{
       
-      width: 45%;
+      width: 50%;
      float: left;
-      margin-top: 20%;
-      padding-left: 5%;
+      margin-top: 8%;
+      padding-left: 20%;
+      height: 75%;
    
 
 
@@ -58,6 +66,10 @@ h1{
     background-color: #e5f7ff;
     font-family: Rowdies;
     color:  #0d497a;
+    background-image: url("https://raw.githubusercontent.com/Shubhamr837/debugshark-backend/master/src/main/resources/laura-college-SFq3STsAKgc-unsplash.jpg?token=AQOZXKOCKRAJK7ODDLXMZMC7HVF5M");
+    background-repeat: no-repeat;
+  background-size: 100%;
+  height: 100%;
  }
  .login{
    
@@ -68,6 +80,70 @@ h1{
 
 
  }
+ button{
+    margin-top: 2%;
+ }
+/*facebook login */
+ .loginBtn {
+  box-sizing: border-box;
+  position: relative;
+   width: 13em;  - apply for fixed size 
+  margin: 0.2em;
+  padding: 0 15px 0 46px;
+  border: none;
+  text-align: left;
+  line-height: 34px;
+  white-space: nowrap;
+  border-radius: 0.2em;
+  font-size: 16px;
+  color: #FFF;
+}
+.loginBtn:before {
+  content: "";
+  box-sizing: border-box;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 34px;
+  height: 100%;
+}
+.loginBtn:focus {
+  outline: none;
+}
+.loginBtn:active {
+  box-shadow: inset 0 0 0 32px rgba(0,0,0,0.1);
+}
+.loginBtn--facebook {
+  background-color: #4C69BA;
+  background-image: linear-gradient(#4C69BA, #3B55A0);
+  font-family: "Helvetica neue", Helvetica Neue, Helvetica, Arial, sans-serif;
+  text-shadow: 0 -1px 0 #354C8C;
+}
+.loginBtn--facebook:before {
+  border-right: #364e92 1px solid;
+  background: url('https://s3-us-west-2.amazonaws.com/s.cdpn.io/14082/icon_facebook.png') 6px 6px no-repeat;
+}
+.loginBtn--facebook:hover,
+.loginBtn--facebook:focus {
+  background-color: #5B7BD5;
+  background-image: linear-gradient(#5B7BD5, #4864B1);
+}
+
+
+/* Google */
+.loginBtn--google {
+  font-family: "Roboto", Roboto, arial, sans-serif;
+  background: #DD4B39;
+}
+.loginBtn--google:before {
+  border-right: #BB3F30 1px solid;
+  background: url('https://s3-us-west-2.amazonaws.com/s.cdpn.io/14082/icon_google.png') 6px 6px no-repeat;
+}
+.loginBtn--google:hover,
+.loginBtn--google:focus {
+  background: #E74B37;
+}
+
  
 
 </style>
@@ -112,24 +188,26 @@ h1{
                     <span class="col-sm-5"><input placeholder="rewrite your password" id="matchPassword" class="form-control" name="matchingPassword" value="" type="password" required="required"/></span>
                     <span id="globalError" class="alert alert-danger col-sm-4" style="display:none"></span>
                 </div>
-                <div class="form-group row">
-                    <label class="col-sm-3" th:text="#{label.user.2fa}">Use Two Step Verification :</label>
-                    <span class="col-sm-5"><input type="checkbox" name="using2FA" value="true"/></span>
-                </div>
+                
                 <br/>
 
                 <button type="submit" class="btn btn-primary" th:text="#{label.form.submit}">submit</button>
             
             </form>
+            <br/><br/>
+                 
+                  <div><button class="loginBtn loginBtn--facebook">Login with Facebook</button></div>
+                  <div><button class="loginBtn loginBtn--google">Login with Google</button></div>
+  
 
-            <br/> 
+            <br/>
             <div class="login">
                  <button><a th:href="@{/login}" th:text="#{label.form.loginLink}">LOGIN WITH EMAIL</a></button>
             </div>
         </div>
         <div class="heading"> 
 
-                <h1 th:text="#{label.form.title}">Come! Be A Part  </h1>
+                <h1 th:text="#{label.form.title}">DEBUGSHARK  </h1>
 
             </div>
            
@@ -139,44 +217,44 @@ h1{
 var serverContext = [[@{/}]];
 
 $(document).ready(function () {
-	$('form').submit(function(event) {
-		register(event);
-	});
-	
-	$(":password").keyup(function(){
-		if($("#password").val() != $("#matchPassword").val()){
-	        $("#globalError").show().html(/*[[#{PasswordMatches.user}]]*/);
-	    }else{
-	    	$("#globalError").html("").hide();
-	    }
-	});
-	
-	options = {
-		    common: {minChar:8},
-		    ui: {
-		    	showVerdictsInsideProgressBar:true,
-		    	showErrors:true,
-		    	errorMessages:{
-		    		  wordLength: /*[[#{error.wordLength}]]*/,
-		    		  wordNotEmail: /*[[#{error.wordNotEmail}]]*/,
-		    		  wordSequences: /*[[#{error.wordSequences}]]*/,
-		    		  wordLowercase: /*[[#{error.wordLowercase}]]*/,
-		    		  wordUppercase: /*[[#{error.wordUppercase}]]*/,
-		    	          wordOneNumber: /*[[#{error.wordOneNumber}]]*/,
-		    		  wordOneSpecialChar: /*[[#{error.wordOneSpecialChar}]]*/
-		    		}
-		    	}
-		};
-	 $('#password').pwstrength(options);
+    $('form').submit(function(event) {
+        register(event);
+    });
+    
+    $(":password").keyup(function(){
+        if($("#password").val() != $("#matchPassword").val()){
+            $("#globalError").show().html(/*[[#{PasswordMatches.user}]]*/);
+        }else{
+            $("#globalError").html("").hide();
+        }
+    });
+    
+    options = {
+            common: {minChar:8},
+            ui: {
+                showVerdictsInsideProgressBar:true,
+                showErrors:true,
+                errorMessages:{
+                      wordLength: /*[[#{error.wordLength}]]*/,
+                      wordNotEmail: /*[[#{error.wordNotEmail}]]*/,
+                      wordSequences: /*[[#{error.wordSequences}]]*/,
+                      wordLowercase: /*[[#{error.wordLowercase}]]*/,
+                      wordUppercase: /*[[#{error.wordUppercase}]]*/,
+                          wordOneNumber: /*[[#{error.wordOneNumber}]]*/,
+                      wordOneSpecialChar: /*[[#{error.wordOneSpecialChar}]]*/
+                    }
+                }
+        };
+     $('#password').pwstrength(options);
 });
 
 function register(event){
-	event.preventDefault();
+    event.preventDefault();
     $(".alert").html("").hide();
     $(".error-list").html("");
     if($("#password").val() != $("#matchPassword").val()){
-    	$("#globalError").show().html(/*[[#{PasswordMatches.user}]]*/);
-    	return;
+        $("#globalError").show().html(/*[[#{PasswordMatches.user}]]*/);
+        return;
     }
     var formData= $('form').serialize();
     $.post(serverContext + "user/registration",formData ,function(data){
@@ -197,14 +275,14 @@ function register(event){
             window.location.href = serverContext + "login?message=" + data.responseJSON.message;
         }
         else{
-        	var errors = $.parseJSON(data.responseJSON.message);
+            var errors = $.parseJSON(data.responseJSON.message);
             $.each( errors, function( index,item ){
-            	if (item.field){
-            		$("#"+item.field+"Error").show().append(item.defaultMessage+"<br/>");
-            	}
-            	else {
-            		$("#globalError").show().append(item.defaultMessage+"<br/>");
-            	}
+                if (item.field){
+                    $("#"+item.field+"Error").show().append(item.defaultMessage+"<br/>");
+                }
+                else {
+                    $("#globalError").show().append(item.defaultMessage+"<br/>");
+                }
                
             });
         }
