@@ -39,7 +39,9 @@ public class User {
 
     private String secret;
 
-    //
+    @ManyToMany
+    @JoinTable(name = "users_questions", joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "question_id", referencedColumnName = "id"))
+    private Collection<Privilege> solved_questions;
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "users_roles", joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
@@ -117,6 +119,14 @@ public class User {
 
     public String getSecret() {
         return secret;
+    }
+
+    public Collection<Privilege> getSolved_questions() {
+        return solved_questions;
+    }
+
+    public void setSolved_questions(Collection<Privilege> solved_questions) {
+        this.solved_questions = solved_questions;
     }
 
     public void setSecret(String secret) {
