@@ -35,18 +35,17 @@ public class DeviceService {
     private String from;
 
     private DeviceMetadataRepository deviceMetadataRepository;
-    private DatabaseReader databaseReader;
+
     private Parser parser;
     private JavaMailSender mailSender;
     private MessageSource messages;
 
     public DeviceService(DeviceMetadataRepository deviceMetadataRepository,
-                         DatabaseReader databaseReader,
                          Parser parser,
                          JavaMailSender mailSender,
                          MessageSource messages) {
         this.deviceMetadataRepository = deviceMetadataRepository;
-        this.databaseReader = databaseReader;
+
         this.parser = parser;
         this.mailSender = mailSender;
         this.messages = messages;
@@ -111,12 +110,10 @@ public class DeviceService {
 
         InetAddress ipAddress = InetAddress.getByName(ip);
 
-        CityResponse cityResponse = databaseReader.city(ipAddress);
-        if (Objects.nonNull(cityResponse) &&
-                Objects.nonNull(cityResponse.getCity()) &&
-                !Strings.isNullOrEmpty(cityResponse.getCity().getName())) {
+        //CityResponse cityResponse = databaseReader.city(ipAddress);
+        if (true) {
 
-            location = cityResponse.getCity().getName();
+            location = "agartala";
         }
 
         return location;
