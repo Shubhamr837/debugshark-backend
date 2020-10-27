@@ -31,7 +31,7 @@ public class Question {
     private String imageurl=null;
 
     @ManyToMany(mappedBy = "solved_questions")
-    private Collection<Role> users;
+    private Collection<User> users;
 
     public String getSubcategory() {
         return subcategory;
@@ -123,11 +123,11 @@ public class Question {
         this.imageurl = imageurl;
     }
 
-    public Collection<Role> getUsers() {
+    public Collection<User> getUsers() {
         return users;
     }
 
-    public void setUsers(Collection<Role> users) {
+    public void setUsers(Collection<User> users) {
         this.users = users;
     }
 }
