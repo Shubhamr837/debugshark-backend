@@ -3,6 +3,7 @@ package com.debugshark.spring;
 import com.maxmind.geoip2.DatabaseReader;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.util.ResourceUtils;
 import ua_parser.Parser;
 
@@ -19,8 +20,7 @@ public class LoginNotificationConfig {
 
     @Bean
     public DatabaseReader databaseReader() throws IOException {
-        File database = ResourceUtils
-                .getFile("classpath:maxmind/GeoLite2-City.mmdb");
+        File database = new ClassPathResource("maxmind/GeoLite2-City.mmdb").getFile();
         return new DatabaseReader.Builder(database)
                 .build();
     }
