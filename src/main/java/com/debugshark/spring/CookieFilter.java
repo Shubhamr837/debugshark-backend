@@ -27,7 +27,7 @@ public class CookieFilter extends OncePerRequestFilter {
     private final AuthenticationManager authenticationManager ;
     private final RedirectStrategy redirectStrategy;
 
-    public static final String secretKey = "";
+    public static final String secretKey = "fgfgh";
 
     CookieFilter(AuthenticationManager authenticationManager, RedirectStrategy redirectStrategy){
         this.authenticationManager = authenticationManager;
